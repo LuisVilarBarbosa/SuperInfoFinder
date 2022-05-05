@@ -2,6 +2,7 @@ import logic.*;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,13 +20,16 @@ public class SuperInfoFinder {
         HashMap<Integer, String> scoresOfSites = new HashMap<>();
         while (!stop && sites.hasNext()) {
             String url = sites.next();
-            String html = RestAdapter.get(url);
-            String rendering = Renderer.render(html);
-            HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
-            siteStore.addSites(newURLs);
-            int score = InfoChecker.checkHtml(rendering, parameters);
-            scoresOfSites.put(score, url);
-            //dump(scoresOfSites, filename);
+            try {
+                String html = RestAdapter.get(url);
+                String rendering = Renderer.render(html);
+                HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
+                siteStore.addSites(newURLs);
+                int score = InfoChecker.checkHtml(rendering, parameters);
+                scoresOfSites.put(score, url);
+                //dump(scoresOfSites, filename);
+            }
+            catch (IOException exception){}
         }
         System.out.println("Search finished.");
     }
