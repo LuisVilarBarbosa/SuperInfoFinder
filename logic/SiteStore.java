@@ -5,7 +5,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class SiteStore {
-    private final HashSet<String> sites = new HashSet<>();
+    private static final String INITIAL_SITE = "https://www.example.com";
+    private final HashSet<String> sites;
+
+    public SiteStore() {
+        sites = new HashSet<>();
+        sites.add(INITIAL_SITE);
+    }
 
     public Iterator<String> getSites() {
         return sites.iterator();
