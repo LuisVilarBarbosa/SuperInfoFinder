@@ -10,8 +10,8 @@ public class HtmlParser {
     private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
     public static HashSet<String> parseURLs(String html) {
-        HashSet<String> urls = new HashSet<>();
-        Matcher matcher = URL_PATTERN.matcher(html);
+        final HashSet<String> urls = new HashSet<>();
+        final Matcher matcher = URL_PATTERN.matcher(html);
         while (matcher.find())
             urls.add(matcher.group());
         return urls;

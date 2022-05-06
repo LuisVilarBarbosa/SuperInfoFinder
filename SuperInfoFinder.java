@@ -13,17 +13,17 @@ public class SuperInfoFinder {
     public static void main(String[] argv) {
         addSigIntHook();
         System.out.println("Press CTRL-C to stop the search.");
-        SiteStore siteStore = new SiteStore();
-        String[] parameters = argv;
-        HashMap<String, Integer> sitesAndScores = new HashMap<>();
+        final SiteStore siteStore = new SiteStore();
+        final String[] parameters = argv;
+        final HashMap<String, Integer> sitesAndScores = new HashMap<>();
         while (!stop && siteStore.hasNextSite()) {
-            String url = siteStore.getNextSite();
+            final String url = siteStore.getNextSite();
             try {
-                String html = HttpRequester.get(url);
-                String rendering = Renderer.render(html);
-                HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
+                final String html = HttpRequester.get(url);
+                final String rendering = Renderer.render(html);
+                final HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
                 siteStore.addSites(newURLs);
-                int score = InfoChecker.checkHtml(rendering, parameters);
+                final int score = InfoChecker.checkHtml(rendering, parameters);
                 sitesAndScores.put(url, score);
                 //dump(sitesAndScores, filename);
                 System.out.println(String.format("%s -> %d", url, score));
@@ -36,7 +36,7 @@ public class SuperInfoFinder {
     }
 
     private static void addSigIntHook() {
-        SignalHandler handler = signal -> {
+        final SignalHandler handler = signal -> {
             stop = true;
             System.out.println("Interrupted by Ctrl+C");
         };

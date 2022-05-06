@@ -16,7 +16,7 @@ public class SiteStore {
     }
 
     public String getNextSite() {
-        String site = sitesToReturn.iterator().next();
+        final String site = sitesToReturn.iterator().next();
         returnedSites.add(site);
         sitesToReturn.remove(site);
         return site;

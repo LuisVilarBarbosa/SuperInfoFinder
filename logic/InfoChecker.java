@@ -14,7 +14,7 @@ public class InfoChecker {
         final int numIterations = text.length() - tokenLength + 1;
         int count = 0;
         for (int i = 0; i < numIterations; i++) {
-            String substring = text.substring(i, i + tokenLength);
+            final String substring = text.substring(i, i + tokenLength);
             if(token.equals(substring))
                 count++;
         }
