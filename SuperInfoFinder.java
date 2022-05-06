@@ -27,7 +27,9 @@ public class SuperInfoFinder {
                 sitesAndScores.put(url, score);
                 //dump(sitesAndScores, filename);
             }
-            catch (IOException exception){}
+            catch (IOException exception){
+                exception.printStackTrace();
+            }
         }
         System.out.println("Search finished.");
     }

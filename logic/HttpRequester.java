@@ -24,6 +24,12 @@ public class HttpRequester {
             in.close();
             return response.toString();
         }
-        return "";
+        else if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP){
+            String location = httpURLConnection.getHeaderField("Location");
+            return get(location);
+        }
+        else {
+            throw new IOException(String.format("The GET request to the URL \"%s\" returned the status code %d.", url, responseCode));
+        }
     }
 }
