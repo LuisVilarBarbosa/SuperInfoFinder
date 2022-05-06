@@ -19,7 +19,7 @@ public class SuperInfoFinder {
         while (!stop && siteStore.hasNextSite()) {
             String url = siteStore.getNextSite();
             try {
-                String html = RestAdapter.get(url);
+                String html = HttpRequester.get(url);
                 String rendering = Renderer.render(html);
                 HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
                 siteStore.addSites(newURLs);
