@@ -26,6 +26,7 @@ public class SuperInfoFinder {
                 int score = InfoChecker.checkHtml(rendering, parameters);
                 sitesAndScores.put(url, score);
                 //dump(sitesAndScores, filename);
+                System.out.println(String.format("%s -> %d", url, score));
             }
             catch (IOException exception){
                 exception.printStackTrace();
