@@ -15,7 +15,7 @@ public class SuperInfoFinder {
         System.out.println("Press CTRL-C to stop the search.");
         SiteStore siteStore = new SiteStore();
         String[] parameters = argv;
-        HashMap<Integer, String> scoresOfSites = new HashMap<>();
+        HashMap<String, Integer> sitesAndScores = new HashMap<>();
         while (!stop && siteStore.hasNextSite()) {
             String url = siteStore.getNextSite();
             try {
@@ -24,8 +24,8 @@ public class SuperInfoFinder {
                 HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
                 siteStore.addSites(newURLs);
                 int score = InfoChecker.checkHtml(rendering, parameters);
-                scoresOfSites.put(score, url);
-                //dump(scoresOfSites, filename);
+                sitesAndScores.put(url, score);
+                //dump(sitesAndScores, filename);
             }
             catch (IOException exception){}
         }
