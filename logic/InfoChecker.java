@@ -1,23 +1,21 @@
 package logic;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class InfoChecker {
-    public static int checkHtml(String html, String[] parameters) {
+    public static int checkHtml(String html, String regex) {
         final String lowerCaseHtml = html.toLowerCase();
-        final int countAcceptedTokens = countTokenOccurrences(lowerCaseHtml, "example");
-        final int countNotAcceptedTokens = countTokenOccurrences(lowerCaseHtml, "icann");
-        return countAcceptedTokens - countNotAcceptedTokens;
+        return countRegexMatches(lowerCaseHtml, regex);
     }
 
-    private static int countTokenOccurrences(String text, String token)
+    private static int countRegexMatches(String text, String regex)
     {
-        final int tokenLength = token.length();
-        final int numIterations = text.length() - tokenLength + 1;
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(text);
         int count = 0;
-        for (int i = 0; i < numIterations; i++) {
-            final String substring = text.substring(i, i + tokenLength);
-            if(token.equals(substring))
-                count++;
-        }
+        while (matcher.find())
+            count++;
         return count;
     }
 }
