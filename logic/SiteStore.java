@@ -5,14 +5,13 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public class SiteStore {
-    private static final String INITIAL_SITE = "https://www.example.com";
     private final HashSet<String> returnedSites;
     private final LinkedHashSet<String> sitesToReturn;
 
-    public SiteStore() {
+    public SiteStore(String initialSite) {
         returnedSites = new HashSet<>();
         sitesToReturn = new LinkedHashSet<>();
-        sitesToReturn.add(INITIAL_SITE);
+        sitesToReturn.add(initialSite);
     }
 
     public String getNextSite() {

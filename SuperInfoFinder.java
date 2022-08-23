@@ -10,15 +10,16 @@ public class SuperInfoFinder {
     private static boolean stop = false;
 
     public static void main(String[] argv) {
-        if (argv.length != 3) {
-            System.out.printf("Usage: %s <regex to match> <output file> <interval in milliseconds>\n", SuperInfoFinder.class.getName());
+        if (argv.length != 4) {
+            System.out.printf("Usage: %s <initial site> <regex to match> <output file> <interval in milliseconds>\n", SuperInfoFinder.class.getName());
             System.out.println("The regex to match should consider that all characters are in lower case.");
             return;
         }
         addSigIntHook();
-        final String regexToMatch = argv[0];
-        final String outputFileName = argv[1];
-        final long intervalInMilliseconds = Long.parseLong(argv[2]);
+        final String initialSite = argv[0].endsWith("/") ? argv[0] : argv[0] + "/";
+        final String regexToMatch = argv[1];
+        final String outputFileName = argv[2];
+        final long intervalInMilliseconds = Long.parseLong(argv[3]);
         if (FileStorage.exists(outputFileName)) {
             System.out.printf("The file '%s' already exists.\n", outputFileName);
             return;
@@ -30,7 +31,7 @@ public class SuperInfoFinder {
         System.out.println("Press CTRL-C to stop the search.");
         System.out.printf("Trying to match the following regex: %s\n", regexToMatch);
         System.out.printf("The amount of matches will be stored in the following file: %s\n", outputFileName);
-        final SiteStore siteStore = new SiteStore();
+        final SiteStore siteStore = new SiteStore(initialSite);
         while (!stop && siteStore.hasNextSite()) {
             final String url = siteStore.getNextSite();
             try {
