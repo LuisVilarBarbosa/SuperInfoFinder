@@ -3,7 +3,6 @@ import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class SuperInfoFinder {
@@ -11,16 +10,22 @@ public class SuperInfoFinder {
     private static boolean stop = false;
 
     public static void main(String[] argv) {
-        if (argv.length != 1) {
-            System.out.printf("Usage: %s <regex to match>", SuperInfoFinder.class.getName());
+        if (argv.length != 2) {
+            System.out.printf("Usage: %s <regex to match> <output file>\n", SuperInfoFinder.class.getName());
             System.out.println("The regex to match should consider that all characters are in lower case.");
             return;
         }
         addSigIntHook();
-        System.out.println("Press CTRL-C to stop the search.");
         final String regexToMatch = argv[0];
+        final String outputFileName = argv[1];
+        if (FileStorage.exists(outputFileName)) {
+            System.out.printf("The file '%s' already exists.\n", outputFileName);
+            return;
+        }
+        System.out.println("Press CTRL-C to stop the search.");
+        System.out.printf("Trying to match the following regex: %s\n", regexToMatch);
+        System.out.printf("The amount of matches will be stored in the following file: %s\n", outputFileName);
         final SiteStore siteStore = new SiteStore();
-        final HashMap<String, Integer> sitesAndScores = new HashMap<>();
         while (!stop && siteStore.hasNextSite()) {
             final String url = siteStore.getNextSite();
             try {
@@ -29,9 +34,9 @@ public class SuperInfoFinder {
                 final HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
                 siteStore.addSites(newURLs);
                 final int score = InfoChecker.checkHtml(rendering, regexToMatch);
-                sitesAndScores.put(url, score);
-                //dump(sitesAndScores, filename);
-                System.out.printf("%s -> %d%n", url, score);
+                final String scoreAndSite = String.format("|%10d| %s\n", score, url);
+                FileStorage.append(outputFileName, scoreAndSite);
+                System.out.printf(scoreAndSite);
             }
             catch (IOException exception){
                 exception.printStackTrace();
