@@ -10,16 +10,21 @@ public class SuperInfoFinder {
     private static boolean stop = false;
 
     public static void main(String[] argv) {
-        if (argv.length != 2) {
-            System.out.printf("Usage: %s <regex to match> <output file>\n", SuperInfoFinder.class.getName());
+        if (argv.length != 3) {
+            System.out.printf("Usage: %s <regex to match> <output file> <interval in milliseconds>\n", SuperInfoFinder.class.getName());
             System.out.println("The regex to match should consider that all characters are in lower case.");
             return;
         }
         addSigIntHook();
         final String regexToMatch = argv[0];
         final String outputFileName = argv[1];
+        final long intervalInMilliseconds = Long.parseLong(argv[2]);
         if (FileStorage.exists(outputFileName)) {
             System.out.printf("The file '%s' already exists.\n", outputFileName);
+            return;
+        }
+        if (intervalInMilliseconds < 0) {
+            System.out.println("The interval provided must be equal to or greater than 0.");
             return;
         }
         System.out.println("Press CTRL-C to stop the search.");
@@ -37,8 +42,9 @@ public class SuperInfoFinder {
                 final String scoreAndSite = String.format("|%10d| %s\n", score, url);
                 FileStorage.append(outputFileName, scoreAndSite);
                 System.out.printf(scoreAndSite);
+                Thread.sleep(intervalInMilliseconds);
             }
-            catch (IOException exception){
+            catch (IOException | InterruptedException exception){
                 exception.printStackTrace();
             }
         }
