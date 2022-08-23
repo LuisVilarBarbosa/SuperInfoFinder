@@ -12,8 +12,11 @@ public class SuperInfoFinder {
 
     public static void main(String[] argv) {
         if (argv.length < 4 || argv.length > 5) {
-            System.out.printf("Usage: %s <initial site> <regex to match> <output file> <interval in milliseconds> [%s]\n", SuperInfoFinder.class.getName(), SEARCH_OUTSIDE_SITE_SCOPE_OPTION);
+            final String programName = SuperInfoFinder.class.getName();
+            System.out.printf("Usage: %s <initial site> <regex to match> <output file> <interval in milliseconds> [%s]\n", programName, SEARCH_OUTSIDE_SITE_SCOPE_OPTION);
             System.out.println("The regex to match should consider that all characters are in lower case.");
+            System.out.printf("Example usage 1: %s \"https://www.example.com\" \"for use in illustrative examples in documents\" output.txt 0\n", programName);
+            System.out.printf("Example usage 2: %s \"https://www.example.com\" \"for use in illustrative examples in documents\" output.txt 1000 %s\n", programName, SEARCH_OUTSIDE_SITE_SCOPE_OPTION);
             return;
         }
         addSigIntHook();
