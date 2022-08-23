@@ -38,12 +38,11 @@ public class SuperInfoFinder {
             final String url = siteStore.getNextSite();
             try {
                 final String html = HttpRequester.get(url);
-                final String rendering = Renderer.render(html);
-                final HashSet<String> newURLs = HtmlParser.parseURLs(rendering);
+                final HashSet<String> newURLs = HtmlParser.parseURLs(html);
                 if (onlyInSiteScope)
                     newURLs.removeIf(site -> !site.startsWith(initialSite));
                 siteStore.addSites(newURLs);
-                final int score = InfoChecker.checkHtml(rendering, regexToMatch);
+                final int score = InfoChecker.checkHtml(html, regexToMatch);
                 final String scoreAndSite = String.format("|%10d| %s\n", score, url);
                 FileStorage.append(outputFileName, scoreAndSite);
                 System.out.printf(scoreAndSite);
