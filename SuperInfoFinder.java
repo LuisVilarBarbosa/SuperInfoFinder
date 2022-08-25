@@ -36,6 +36,10 @@ public class SuperInfoFinder {
         System.out.println("Press CTRL-C to stop the search.");
         System.out.printf("Trying to match the following regex: %s\n", regexToMatch);
         System.out.printf("The amount of matches will be stored in the following file: %s\n", outputFileName);
+        if (onlyInSiteScope)
+            System.out.println("Searching only inside initial site scope.");
+        else
+            System.out.println("Searching both inside and outside initial site scope.");
         final SiteStore siteStore = new SiteStore(initialSite);
         while (!stop && siteStore.hasNextSite()) {
             final String url = siteStore.getNextSite();
