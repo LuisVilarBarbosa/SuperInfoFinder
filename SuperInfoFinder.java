@@ -42,15 +42,15 @@ public class SuperInfoFinder {
             System.out.println("Searching both inside and outside initial site scope.");
         final SiteStore siteStore = new SiteStore(initialSite);
         while (!stop && siteStore.hasNextSite()) {
-            final String url = siteStore.getNextSite();
+            final String site = siteStore.getNextSite();
             try {
-                final String html = HttpRequester.get(url);
+                final String html = HttpRequester.get(site);
                 final HashSet<String> newURLs = HtmlParser.parseURLs(html);
                 if (onlyInSiteScope)
-                    newURLs.removeIf(site -> !site.startsWith(initialSite));
+                    newURLs.removeIf(url -> !url.startsWith(initialSite));
                 siteStore.addSites(newURLs);
                 final int score = InfoChecker.checkHtml(html, regexToMatch);
-                final String scoreAndSite = String.format("|%10d| %s\n", score, url);
+                final String scoreAndSite = String.format("|%10d| %s\n", score, site);
                 FileStorage.append(outputFileName, scoreAndSite);
                 System.out.printf(scoreAndSite);
                 Thread.sleep(intervalInMilliseconds);
