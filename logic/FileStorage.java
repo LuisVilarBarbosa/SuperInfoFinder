@@ -3,10 +3,10 @@ package logic;
 import java.io.*;
 
 public class FileStorage {
-    final static boolean append = true;
+    private static final boolean APPEND = true;
 
     public static void append(String fileName, String text) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName, append);
+        FileWriter fileWriter = new FileWriter(fileName, APPEND);
         fileWriter.append(text);
         fileWriter.close();
     }
