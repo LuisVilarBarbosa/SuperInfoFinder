@@ -55,6 +55,9 @@ public class SuperInfoFinder {
                 if (siteStore.hasNextSite())
                     Thread.sleep(intervalInMilliseconds);
             }
+            catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
             catch (Exception exception) {
                 System.err.printf("Failed to process the following URL: %s\n", site);
                 exception.printStackTrace();
