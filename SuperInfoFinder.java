@@ -53,7 +53,8 @@ public class SuperInfoFinder {
                 final String scoreAndSite = String.format("|%10d| %s\n", score, site);
                 FileStorage.append(outputFileName, scoreAndSite);
                 System.out.printf(scoreAndSite);
-                Thread.sleep(intervalInMilliseconds);
+                if (siteStore.hasNextSite())
+                    Thread.sleep(intervalInMilliseconds);
             }
             catch (IOException | InterruptedException exception){
                 exception.printStackTrace();
