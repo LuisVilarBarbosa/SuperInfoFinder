@@ -2,7 +2,6 @@ import logic.*;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
-import java.io.IOException;
 import java.util.HashSet;
 
 public class SuperInfoFinder {
@@ -56,7 +55,8 @@ public class SuperInfoFinder {
                 if (siteStore.hasNextSite())
                     Thread.sleep(intervalInMilliseconds);
             }
-            catch (IOException | InterruptedException exception){
+            catch (Exception exception) {
+                System.err.printf("Failed to process the following URL: %s\n", site);
                 exception.printStackTrace();
             }
         }
